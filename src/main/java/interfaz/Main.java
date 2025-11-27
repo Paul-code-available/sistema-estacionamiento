@@ -1,5 +1,6 @@
 package interfaz;
 
+import logica.vehiculos.Automovil;
 import logica.vehiculos.Motocicleta;
 
 import java.time.LocalDateTime;
@@ -13,19 +14,18 @@ public class Main {
         Scanner in = new Scanner(System.in);
 
         try {
-            System.out.println(estacionamiento.estacionarVehiculo(new Motocicleta("1234567", "Yamaha", "443352", LocalDateTime.now(), 0.5), 0,0));
-            System.out.println(estacionamiento.estacionarVehiculo(new Motocicleta("1234567", "Yamaha", "443352", LocalDateTime.now(), 0.5), 0,0));
-            System.out.println(estacionamiento.estacionarVehiculo(new Motocicleta("1234567", "Yamaha", "443352", LocalDateTime.now(), 0.5), 0,0));
+            System.out.println(estacionamiento.estacionarVehiculo(new Motocicleta("1234567", "Yamaha", "443352", LocalDateTime.now()), 0,0));
+            System.out.println(estacionamiento.estacionarVehiculo(new Motocicleta("1234567", "Yamaha", "443352", LocalDateTime.now()), 0,0));
+            System.out.println(estacionamiento.estacionarVehiculo(new Automovil("1234567", "Yamaha", "443352", LocalDateTime.now()), 1,0));
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
 
 
-        estacionamiento.verVistaEstacionamiento();
-        estacionamiento.verEspacioEstacionamiento();
 
 
-        // me estoy dando cuenta que no estoy guardando los vehiculos dentro de la matriz, tendré que crear otra?
+        estacionamiento.verVehiculosEstacionados();
+
 
     }
 }

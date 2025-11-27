@@ -113,4 +113,9 @@ public abstract class Vehiculo {
             return horasCobradas * tarifaPorHora;
         }
     }
+
+    @Override
+    public String toString() {
+        return "Vehiculo";
+    }
 }
