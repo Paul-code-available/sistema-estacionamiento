@@ -4,6 +4,7 @@ import logica.vehiculos.Vehiculo;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -25,6 +26,7 @@ public class Estacionamiento {
         espacioEstacionamiento = new double[filas][columnas];
         vehiculosEstacionados = new ArrayList[filas][columnas];
     }
+
     /**
      * inicializa las matrices
      * la matriz espacioEstacionamiento lleva el calculo de los espacios por estacionamiento,
@@ -40,6 +42,7 @@ public class Estacionamiento {
             }
         }
     }
+
     /**
      *
      * @param vehiculo -> vehiculo que le pedimos al usuario
@@ -63,7 +66,7 @@ public class Estacionamiento {
             if (espacioActual == 0) {
                 espacioEstacionamiento[fila][columna] = 1;
                 vehiculosEstacionados[fila][columna].add(vehiculo);
-                return "Automóvil estacionado, espacio lleno.";
+                return "Automóvil estacionado con exito!!";
             } else {
                 return "No hay espacio suficiente para un automóvil en este lugar.";
             }
@@ -76,14 +79,14 @@ public class Estacionamiento {
             if (espacioActual == 0) {
                 espacioEstacionamiento[fila][columna] = 0.5;
                 vehiculosEstacionados[fila][columna].add(vehiculo);
-                return "Moto estacionada, hay espacio para una más.";
+                return "Moto estacionada con exito!!, hay espacio para una mas en la misma posicion";
             }
 
             // cuando es la segunda moto
             if (espacioActual == 0.5) {
                 espacioEstacionamiento[fila][columna] = 1;
                 vehiculosEstacionados[fila][columna].add(vehiculo);
-                return "Moto estacionada, espacio lleno.";
+                return "Moto estacionada con exito, espacio lleno.";
             }
 
             return "No se puede estacionar otra moto aquí.";
@@ -184,10 +187,21 @@ public class Estacionamiento {
         if (historialVehiculos.isEmpty()){
             System.out.println("Aun no ha salido ningun vehiculo");
         }
-        else {
-            for (Vehiculo v : historialVehiculos){
+        else{
+            for (int i = 0; i < historialVehiculos.size(); i++){
+
+                Vehiculo v = historialVehiculos.get(i);
+                System.out.println("Modelo del vehiculo: " + v.getModelo());
                 System.out.println("Hora de entrada: " + v.getHoraEntrada().toLocalTime());
-                System.out.println("Hora de salida: " +  v.getHoraSalida().toLocalTime());
+
+                if (v.getHoraSalida() != null) {
+                    System.out.println("Hora de salida: " + v.getHoraSalida().toLocalTime());
+                }
+                else{
+                    System.out.println("Hora de salida: el vehiculo entro, pero aun no ha salido");
+                }
+
+                System.out.println();
             }
         }
 
@@ -195,6 +209,8 @@ public class Estacionamiento {
 
         double espaciosTotales = filas * columnas;
         double espaciosOcupados = 0;
+
+
 
         for (int i = 0; i < filas; i++){
             for (int j = 0; j < columnas; j++){
@@ -205,7 +221,7 @@ public class Estacionamiento {
         }
 
         double porcentajeOcupacion = (espaciosOcupados/espaciosTotales) * 100;
-        System.out.println("El porcentaje de ocupacion es del: " + porcentajeOcupacion);
+        System.out.println("El porcentaje de ocupacion es del: " + porcentajeOcupacion + "%");
 
         System.out.println("Vista actual de estacionamiento: \n");
         verVehiculosEstacionados();

@@ -26,6 +26,9 @@ public class Main {
                     } catch (Exception e) {
                         System.out.println("Error: " + e.getMessage());
                     }
+
+                    System.out.println("Presione ENTER para continuar:");
+                    in.nextLine();
                     break;
                 case 2:
                     try {
@@ -33,13 +36,22 @@ public class Main {
                     } catch (Exception e) {
                         System.err.println("Error: " + e.getMessage());
                     }
+
+                    System.out.println("Presione ENTER para continuar:");
+                    in.nextLine();
                     break;
                 case 3:
                     estacionamiento.verVehiculosEstacionados();
+
+                    System.out.println("Presione ENTER para continuar:");
+                    in.nextLine();
                     break;
                 case 4:
 
                     estacionamiento.generarReporte();
+
+                    System.out.println("Presione ENTER para continuar:");
+                    in.nextLine();
                     break;
             }
 

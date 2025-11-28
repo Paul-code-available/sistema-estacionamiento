@@ -28,7 +28,6 @@ public class Usuario {
             DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm");
             // convertimos la hora ingresada por el usuario(String) a LocalTime
             LocalTime horaSalida = LocalTime.parse(hora, formato);
-
             // ahora unimos la hora actual y la de salida para que sea valida
             return LocalDateTime.of(LocalDate.now(), horaSalida);
 
@@ -111,7 +110,7 @@ public class Usuario {
                 System.out.println("Valor incorrecto " + e.getMessage());
             };
 
-        } while (opcion < 1 || opcion > 4);
+        } while (opcion < 1 || opcion > 5);
 
         return opcion;
     }
