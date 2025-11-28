@@ -22,7 +22,13 @@ public class Estacionamiento {
         espacioEstacionamiento = new double[filas][columnas];
         vehiculosEstacionados = new ArrayList[filas][columnas];
     }
-
+    /**
+     * inicializa las matrices
+     * la matriz espacioEstacionamiento lleva el calculo de los espacios por estacionamiento,
+     * mientras que la de vehiculosEstacionados es donde almacenamos los Vehiculos(objetos)
+     * esta misma matriz detro de cada celda contiene un arrayList que puede almacenar un
+     * maximo de 2 motos o 1 automovil o camioneta
+     */
     public void inicializarEstacionamiento() {
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
@@ -31,37 +37,63 @@ public class Estacionamiento {
             }
         }
     }
-
+    /**
+     *
+     * @param vehiculo -> vehiculo que le pedimos al usuario
+     * @param fila -> fila donde se almacenará el vehiculo
+     * @param columna -> columna donde se almacenará el vehiculo
+     * @return retorna un mensaje dependiendo la operacion que se realizo
+     * o si no se pudo realizar ninguna
+     */
     public String entradaVehiculo(Vehiculo vehiculo, int fila, int columna) {
-        /*
-            si el espacio requerido por el vehiculo es 0.5 y el espacio disponible del estacionamiento es
-            menor o igual a 0.5 sumanos y asignamos el espacio requerido por el vehiculo al espacio total
-            del estacionamiento.
-            el espacio maximo por lugar de estacionamiento es 1, es decir; 1 carro o 2 motos.
-            si el espacio total del estacionamiento es 0.5 asignamos una 'M' de moto a la vista
-            del estacionamiento que significa que aún hay espacio para otra moto y si es igual a
-            1 una 'X' que significa que el espacio ya esta lleno.
-         */
 
-        if (espacioEstacionamiento[fila][columna] == 1) {
-            throw new IllegalStateException("El espacio ya esta ocupado.");
+        double espacioActual = espacioEstacionamiento[fila][columna];
+        double requerido = vehiculo.getEspacioRequerido();
+
+        // verificamos si esta lleno
+        if (espacioActual == 1) {
+            return "El espacio ya está completamente ocupado";
         }
 
-        if (espacioEstacionamiento[fila][columna] <= 0.5 && vehiculo.getEspacioRequerido() <= 0.5 || vehiculo.getEspacioRequerido() == 1) {
-            espacioEstacionamiento[fila][columna] += vehiculo.getEspacioRequerido();
-
-            if (espacioEstacionamiento[fila][columna] == 0.5) {
+        // si es un automovil o camioneta
+        if (requerido == 1) {
+            if (espacioActual == 0) {
+                espacioEstacionamiento[fila][columna] = 1;
                 vehiculosEstacionados[fila][columna].add(vehiculo);
-                return "Moto estacionada, hay espacio para una más";
-            }
-            if (espacioEstacionamiento[fila][columna] == 1) {
-                vehiculosEstacionados[fila][columna].add(vehiculo);
-                return "Vehiculo estacionado, espacio lleno";
+                return "Automóvil estacionado, espacio lleno.";
+            } else {
+                return "No hay espacio suficiente para un automóvil en este lugar.";
             }
         }
-        return "No se pudo estacionar el vehiculo.";
+
+        // si es moto
+        if (requerido == 0.5) {
+
+            // cuando es la primera moto
+            if (espacioActual == 0) {
+                espacioEstacionamiento[fila][columna] = 0.5;
+                vehiculosEstacionados[fila][columna].add(vehiculo);
+                return "Moto estacionada, hay espacio para una más.";
+            }
+
+            // cuando es la segunda moto
+            if (espacioActual == 0.5) {
+                espacioEstacionamiento[fila][columna] = 1;
+                vehiculosEstacionados[fila][columna].add(vehiculo);
+                return "Moto estacionada, espacio lleno.";
+            }
+
+            return "No se puede estacionar otra moto aquí.";
+        }
+
+        return "No existe ese tipo de vehiculo.";
     }
-
+    /**
+     *
+     * @param horaSalida -> se la pedimos al usuario cuando el vehiculo saldrá
+     * @param usuario -> pasamos la instancia del objeto usuario para poder utilizar sus metodos
+     * @param in -> lo pasamos como parametro porque usuario.escogerMoto lo utiliza
+     */
     public void salidaVehiculo(int fila, int columna, LocalDateTime horaSalida, Usuario usuario, Scanner in) {
 
         if (vehiculosEstacionados[fila][columna].isEmpty()) {
@@ -82,7 +114,12 @@ public class Estacionamiento {
         generarTicket(v);
 
     }
-
+    /**
+     *
+     * @param v -> es de tipo vehiculo, lo pasamos al momento de la salida del vehiculo,
+     * este es un metodo que se manda a llamar en salidaVehiculo.
+     * simplemente sirve para generar el ticket
+     */
     public void generarTicket(Vehiculo v) {
         DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm");
         Duration d = Duration.between(v.getHoraEntrada(), v.getHoraSalida());
@@ -99,7 +136,7 @@ public class Estacionamiento {
         System.out.println("Duración total: " + horas + "h " + minutosRestantes + "m");
         System.out.println("Total a pagar: " + v.calcularTarifa());
     }
-
+    // muestra la vista del estacionamiento
     public void verVehiculosEstacionados() {
         imprimirTitulo();
 
