@@ -14,27 +14,32 @@ public class Main {
 
         Scanner in = new Scanner(System.in);
 
-        try {
-            System.out.println(estacionamiento.entradaVehiculo(new Motocicleta("1234567", "Yamaha", "443352", LocalDateTime.now()), 0,0));
-            System.out.println(estacionamiento.entradaVehiculo(new Motocicleta("946615", "Yamaha", "443352", LocalDateTime.now()), 0,0));
-            System.out.println(estacionamiento.entradaVehiculo(new Automovil("51545", "Toyota", "443352", LocalDateTime.now()), 1,0));
-            System.out.println(estacionamiento.entradaVehiculo(new Automovil("51545", "Toyota", "443352", LocalDateTime.now()), 4,7));
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-        }
+        int opcion = 0;
+        do {
 
-         
+            opcion = usuario.menu(in);
 
-        /*
-        try {
-            System.out.println(estacionamiento.salidaVehiculo(0,0, usuario.pedirHoraSalida(in), usuario, in));
-        } catch (Exception e) {
-            System.err.println("Espacio no disponible " + e.getMessage());
-        }
-        */
+            switch (opcion) {
+                case 1:
+                    try {
+                        System.out.println(estacionamiento.entradaVehiculo(usuario.registrarVehiculo(in), usuario.pedirFila(in), usuario.pedirColumna(in)));
+                    } catch (Exception e) {
+                        System.out.println("Error: " + e.getMessage());
+                    }
+                    break;
+                case 2:
+                    try {
+                        estacionamiento.salidaVehiculo(usuario.pedirFila(in), usuario.pedirColumna(in), usuario.pedirHoraSalida(in), usuario, in);
+                    } catch (Exception e) {
+                        System.err.println("Error: " + e.getMessage());
+                    }
+                    break;
+                case 3:
+                    estacionamiento.verVehiculosEstacionados();
+                    break;
+            }
 
-
-        estacionamiento.verVehiculosEstacionados();
+        } while (opcion != 4);
 
     }
 }

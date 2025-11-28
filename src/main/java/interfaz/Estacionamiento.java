@@ -62,21 +62,25 @@ public class Estacionamiento {
         return "No se pudo estacionar el vehiculo.";
     }
 
-    public String salidaVehiculo(int fila, int columna, LocalDateTime horaSalida, Usuario usuario, Scanner in) {
-        // ver que pedo con las motos
+    public void salidaVehiculo(int fila, int columna, LocalDateTime horaSalida, Usuario usuario, Scanner in) {
+
+        if (vehiculosEstacionados[fila][columna].isEmpty()) {
+            throw new IndexOutOfBoundsException("El estacionamiento esta vacio");
+        }
+
         int indice = 0;
-        // si en el lugar hay 2 motos el usuario tendrá que escoger una basado en la placa
-        if (vehiculosEstacionados[fila][columna].get(1) != null) {
+
+        if (vehiculosEstacionados[fila][columna].size() == 2) {
             indice = usuario.escogerMoto(in,fila, columna, vehiculosEstacionados);
         }
 
         Vehiculo v = vehiculosEstacionados[fila][columna].get(indice); // accedemos al vehiculo
         v.setHoraSalida(horaSalida); // asignamos la hora de salida
         vehiculosEstacionados[fila][columna].remove(indice); // borramos el vehiculo
+        espacioEstacionamiento[fila][columna] -= v.getEspacioRequerido(); // reseteamos el espacio
 
         generarTicket(v);
 
-        return "El vehiculo ha salido con exito";
     }
 
     public void generarTicket(Vehiculo v) {
@@ -117,7 +121,7 @@ public class Estacionamiento {
     }
 
     public void imprimirTitulo() {
-        System.out.println("======================================================Estacionamiento====================================================");
+        System.out.println("\t\t\t\t\t\t\t========================Estacionamiento==========================");
     }
 
 }

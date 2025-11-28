@@ -1,5 +1,8 @@
 package interfaz;
 
+import logica.vehiculos.Automovil;
+import logica.vehiculos.Camioneta;
+import logica.vehiculos.Motocicleta;
 import logica.vehiculos.Vehiculo;
 
 import java.time.LocalDate;
@@ -27,7 +30,7 @@ public class Usuario {
             return LocalDateTime.of(LocalDate.now(), horaSalida);
 
         } catch (Exception e) {
-            System.out.println("Error en registro de salida: " + e.getMessage());
+            System.out.println("Error en hora de salida: " + e.getMessage());
         }
 
         return null;
@@ -40,6 +43,94 @@ public class Usuario {
         System.out.println("Opcion: ");
         return Integer.parseInt(in.nextLine()) - 1;
     }
+
+    public Vehiculo registrarVehiculo(Scanner in) {
+        System.out.println("\t========Registrar Vehiculo===========");
+        try {
+            int tipoVehiculo = 0;
+            do {
+
+                System.out.println("Tipo de Vehiculo (1. Moto, 2. Automovil, 3. Camioneta): ");
+                tipoVehiculo = Integer.parseInt(in.nextLine());
+
+            } while (tipoVehiculo < 1 || tipoVehiculo > 3);
+
+
+            System.out.print("Ingrese la placa del Vehiculo: ");
+            String placa = in.nextLine();
+            System.out.print("Ingrese el marca del Vehiculo: ");
+            String marca = in.nextLine();
+            System.out.print("Ingrese el modelo del Vehiculo: ");
+            String modelo = in.nextLine();
+
+            if (tipoVehiculo == 1) {
+                return new Motocicleta(placa, marca, modelo, LocalDateTime.now());
+            } else if (tipoVehiculo == 2) {
+                return new Automovil(placa, marca, modelo, LocalDateTime.now());
+            } else {
+                return new Camioneta(placa, marca, modelo, LocalDateTime.now());
+            }
+
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Valor incorrecto");
+        }
+    }
+
+    public int menu(Scanner in) {
+        int opcion = 0;
+        do {
+            try {
+                System.out.println("==========Menu=========");
+                System.out.println("1. Registrar entrada");
+                System.out.println("2. Registrar salida");
+                System.out.println("3. Ver estacionamiento");
+                System.out.println("4. Salir");
+                System.out.println("Opcion: ");
+                opcion = Integer.parseInt(in.nextLine());
+
+            } catch (IllegalArgumentException e) {
+                System.out.println("Valor incorrecto " + e.getMessage());
+            };
+
+
+        } while (opcion < 1 || opcion > 4);
+
+        return opcion;
+    }
+
+    public int pedirFila(Scanner in) {
+        int fila = -1;
+        do {
+
+            try {
+                System.out.print("Ingrese la Fila: ");
+                fila = Integer.parseInt(in.nextLine());
+            } catch (IllegalArgumentException e) {
+                System.out.println("Valor incorrecto " + e.getMessage());
+            }
+
+        } while (fila < 0 || fila > 5);
+
+        return fila;
+    }
+
+    public int pedirColumna(Scanner in) {
+        int columna = -1;
+        do {
+
+            try {
+                System.out.print("Ingrese la Columna: ");
+                columna = Integer.parseInt(in.nextLine());
+            } catch (IllegalArgumentException e) {
+                System.out.println("Valor incorrecto " + e.getMessage());
+            }
+
+        } while (columna < 0 || columna > 5);
+
+        return columna;
+    }
+
+
 
 
 }
