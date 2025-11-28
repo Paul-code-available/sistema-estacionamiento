@@ -13,9 +13,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Usuario {
-
+    /**
+     *
+     * @param in -> para interactuar con el usuario
+     * @return retorna la hora de salida del vehiculo
+     */
     public LocalDateTime pedirHoraSalida(Scanner in) {
-
         // pedir al usuario la hora
         System.out.print("Ingrese el hora de salida del Vehiculo (HH:mm): ");
         String hora = in.nextLine();
@@ -36,6 +39,13 @@ public class Usuario {
         return null;
     }
 
+    /**
+     *
+     * @param vehiculosEstacionados le pasamos la matriz donde almacenamos los vehiculos
+     * en caso de que el mismo lugar tenga 2 motos el usuario deberá elegir por su placa
+     * cual de ellas sacara
+     * @return retorna el indice de la moto escogida
+     */
     public int escogerMoto(Scanner in, int fila, int columna, ArrayList<Vehiculo>[][] vehiculosEstacionados) {
         System.out.println("Moto a salir:");
         System.out.println("1. " + vehiculosEstacionados[fila][columna].get(0).getPlaca());
@@ -44,6 +54,11 @@ public class Usuario {
         return Integer.parseInt(in.nextLine()) - 1;
     }
 
+    /**
+     * en general sirve para pedir los datos del vehiculo al usuario
+     * @return -> retornara determinado vehiculo dependiendo cual escogio
+     * el usuario
+     */
     public Vehiculo registrarVehiculo(Scanner in) {
         System.out.println("\t========Registrar Vehiculo===========");
         try {
@@ -54,7 +69,6 @@ public class Usuario {
                 tipoVehiculo = Integer.parseInt(in.nextLine());
 
             } while (tipoVehiculo < 1 || tipoVehiculo > 3);
-
 
             System.out.print("Ingrese la placa del Vehiculo: ");
             String placa = in.nextLine();
@@ -76,6 +90,10 @@ public class Usuario {
         }
     }
 
+    /**
+     *  es el menu con el interactuamos con el usuario
+     * @return -> retorna la opcion escogida por el usuario
+     */
     public int menu(Scanner in) {
         int opcion = 0;
         do {
@@ -93,12 +111,15 @@ public class Usuario {
                 System.out.println("Valor incorrecto " + e.getMessage());
             };
 
-
         } while (opcion < 1 || opcion > 4);
 
         return opcion;
     }
 
+    /**
+     *
+     * @return -> metodo para pedir la fila al usuario
+     */
     public int pedirFila(Scanner in) {
         int fila = -1;
         do {
@@ -115,6 +136,10 @@ public class Usuario {
         return fila;
     }
 
+    /**
+     *
+     * @return -> metodo para pedir la columna al usuario
+     */
     public int pedirColumna(Scanner in) {
         int columna = -1;
         do {
@@ -130,8 +155,4 @@ public class Usuario {
 
         return columna;
     }
-
-
-
-
 }
