@@ -37,9 +37,13 @@ public class Main {
                 case 3:
                     estacionamiento.verVehiculosEstacionados();
                     break;
+                case 4:
+
+                    estacionamiento.generarReporte();
+                    break;
             }
 
-        } while (opcion != 4);
+        } while (opcion != 5);
 
     }
 }

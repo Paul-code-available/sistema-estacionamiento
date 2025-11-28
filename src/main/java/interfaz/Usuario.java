@@ -84,7 +84,8 @@ public class Usuario {
                 System.out.println("1. Registrar entrada");
                 System.out.println("2. Registrar salida");
                 System.out.println("3. Ver estacionamiento");
-                System.out.println("4. Salir");
+                System.out.println("4. Generar reporte");
+                System.out.println("5. Salir");
                 System.out.println("Opcion: ");
                 opcion = Integer.parseInt(in.nextLine());
 

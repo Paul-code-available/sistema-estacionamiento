@@ -15,6 +15,9 @@ public class Estacionamiento {
 
     private double[][] espacioEstacionamiento;
     private ArrayList<Vehiculo>[][] vehiculosEstacionados;
+    private ArrayList<Vehiculo> historialVehiculos = new ArrayList<>();
+    private double ingresosTotales;
+
 
     public Estacionamiento(int filas, int columnas) {
         this.filas = filas;
@@ -44,7 +47,7 @@ public class Estacionamiento {
          */
 
         if (espacioEstacionamiento[fila][columna] == 1) {
-            throw new IllegalStateException("El espacio ya esta ocupado.");
+            throw new IllegalStateException("El espacio ya esta ocupado");
         }
 
         if (espacioEstacionamiento[fila][columna] <= 0.5 && vehiculo.getEspacioRequerido() <= 0.5 || vehiculo.getEspacioRequerido() == 1) {
@@ -52,14 +55,14 @@ public class Estacionamiento {
 
             if (espacioEstacionamiento[fila][columna] == 0.5) {
                 vehiculosEstacionados[fila][columna].add(vehiculo);
-                return "Moto estacionada, hay espacio para una más";
+                return "Moto estacionada con exito!!";
             }
             if (espacioEstacionamiento[fila][columna] == 1) {
                 vehiculosEstacionados[fila][columna].add(vehiculo);
-                return "Vehiculo estacionado, espacio lleno";
+                return "Vehiculo estacionado con exito!!";
             }
         }
-        return "No se pudo estacionar el vehiculo.";
+        return "No se pudo estacionar el vehiculo";
     }
 
     public void salidaVehiculo(int fila, int columna, LocalDateTime horaSalida, Usuario usuario, Scanner in) {
@@ -78,6 +81,9 @@ public class Estacionamiento {
         v.setHoraSalida(horaSalida); // asignamos la hora de salida
         vehiculosEstacionados[fila][columna].remove(indice); // borramos el vehiculo
         espacioEstacionamiento[fila][columna] -= v.getEspacioRequerido(); // reseteamos el espacio
+
+        historialVehiculos.add(v);
+        ingresosTotales += v.calcularTarifa();
 
         generarTicket(v);
 
@@ -124,4 +130,48 @@ public class Estacionamiento {
         System.out.println("\t\t\t\t\t\t\t========================Estacionamiento==========================");
     }
 
+    /**
+     * Genera un reporte algo general de lo que paso en el uso del estacionamiento,
+     * mostrando el historial de vehiculos que han entrado y salido, los ingresos
+     * que se generaron en el transcurso del uso del programa, que tan ocupado esta
+     * el estacionamiento y como se ve.
+     * Los vehivulos que entraron necesitan haber salido para que se muestren,
+     * si no se indica que aun no sale ninguno.
+     */
+    public void generarReporte(){
+
+        System.out.println("\n====================REPORTE GENERAL====================");
+
+        System.out.println("\nHistorial de vehiculos que ingresaron y salieron: ");
+
+        if (historialVehiculos.isEmpty()){
+            System.out.println("Aun no ha salido ningun vehiculo");
+        }
+        else {
+            for (Vehiculo v : historialVehiculos){
+                System.out.println("Hora de entrada: " + v.getHoraEntrada().toLocalTime());
+                System.out.println("Hora de salida: " +  v.getHoraSalida().toLocalTime());
+            }
+        }
+
+        System.out.println("\nIngresos totales: " + ingresosTotales + " pesos");
+
+        double espaciosTotales = filas * columnas;
+        double espaciosOcupados = 0;
+
+        for (int i = 0; i < filas; i++){
+            for (int j = 0; j < columnas; j++){
+                if ( !vehiculosEstacionados[i][j].isEmpty() ){
+                    espaciosOcupados += espacioEstacionamiento[i][j];
+                }
+            }
+        }
+
+        double porcentajeOcupacion = (espaciosOcupados/espaciosTotales) * 100;
+        System.out.println("El porcentaje de ocupacion es del: " + porcentajeOcupacion);
+
+        System.out.println("Vista actual de estacionamiento: \n");
+        verVehiculosEstacionados();
+
+    }
 }
