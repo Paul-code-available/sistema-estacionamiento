@@ -2,7 +2,11 @@ package interfaz;
 
 import logica.vehiculos.Vehiculo;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Estacionamiento {
 
@@ -28,7 +32,7 @@ public class Estacionamiento {
         }
     }
 
-    public String estacionarVehiculo(Vehiculo vehiculo, int fila, int columna) {
+    public String entradaVehiculo(Vehiculo vehiculo, int fila, int columna) {
         /*
             si el espacio requerido por el vehiculo es 0.5 y el espacio disponible del estacionamiento es
             menor o igual a 0.5 sumanos y asignamos el espacio requerido por el vehiculo al espacio total
@@ -58,6 +62,40 @@ public class Estacionamiento {
         return "No se pudo estacionar el vehiculo.";
     }
 
+    public String salidaVehiculo(int fila, int columna, LocalDateTime horaSalida, Usuario usuario, Scanner in) {
+        // ver que pedo con las motos
+        int indice = 0;
+        // si en el lugar hay 2 motos el usuario tendrá que escoger una basado en la placa
+        if (vehiculosEstacionados[fila][columna].get(1) != null) {
+            indice = usuario.escogerMoto(in,fila, columna, vehiculosEstacionados);
+        }
+
+        Vehiculo v = vehiculosEstacionados[fila][columna].get(indice); // accedemos al vehiculo
+        v.setHoraSalida(horaSalida); // asignamos la hora de salida
+        vehiculosEstacionados[fila][columna].remove(indice); // borramos el vehiculo
+
+        generarTicket(v);
+
+        return "El vehiculo ha salido con exito";
+    }
+
+    public void generarTicket(Vehiculo v) {
+        DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm");
+        Duration d = Duration.between(v.getHoraEntrada(), v.getHoraSalida());
+
+        long minutos = d.toMinutes();
+        long horas = minutos / 60;
+        long minutosRestantes = minutos % 60;
+
+        System.out.println("===================Ticket===================");
+        System.out.println("Tipo: " + v.toString());
+        System.out.println("Placa: " + v.getPlaca());
+        System.out.println("Hora de entrada: " + v.getHoraEntrada().format(formatoHora));
+        System.out.println("Hora de salida: " +  v.getHoraSalida().format(formatoHora));
+        System.out.println("Duración total: " + horas + "h " + minutosRestantes + "m");
+        System.out.println("Total a pagar: " + v.calcularTarifa());
+    }
+
     public void verVehiculosEstacionados() {
         imprimirTitulo();
 
@@ -71,7 +109,7 @@ public class Estacionamiento {
                     for (Vehiculo v : vehiculosEstacionados[i][j]) {
                         System.out.print("[" + v.toString() + "]");
                     }
-                    System.out.print("\t");
+                    System.out.print("\t\t");
                 }
             }
             System.out.println();
