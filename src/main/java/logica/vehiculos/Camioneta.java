@@ -24,4 +24,8 @@ public class Camioneta extends Vehiculo{
     public int tarifaPorHora() {
         return 20;
     }
+
+    public String toString() {
+        return "Camioneta";
+    }
 }

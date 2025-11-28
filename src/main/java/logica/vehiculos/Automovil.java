@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
  */
 public class Automovil extends Vehiculo {
 
-    public Automovil(String placa, String marca, String modelo, LocalDateTime horaEntrada, double espacioRequerido) {
+    public Automovil(String placa, String marca, String modelo, LocalDateTime horaEntrada) {
         super(placa, marca, modelo, horaEntrada, 1);
     }
 
@@ -23,5 +23,9 @@ public class Automovil extends Vehiculo {
     @Override
     public int tarifaPorHora() {
         return 15;
+    }
+
+    public String toString() {
+        return "Automovil";
     }
 }
