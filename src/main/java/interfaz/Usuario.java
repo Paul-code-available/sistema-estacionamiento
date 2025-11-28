@@ -111,7 +111,7 @@ public class Usuario {
                 System.out.println("Valor incorrecto " + e.getMessage());
             };
 
-        } while (opcion < 1 || opcion > 4);
+        } while (opcion < 1 || opcion > 5);
 
         return opcion;
     }

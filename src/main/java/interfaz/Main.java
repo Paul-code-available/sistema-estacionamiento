@@ -38,7 +38,6 @@ public class Main {
                     estacionamiento.verVehiculosEstacionados();
                     break;
                 case 4:
-
                     estacionamiento.generarReporte();
                     break;
             }
