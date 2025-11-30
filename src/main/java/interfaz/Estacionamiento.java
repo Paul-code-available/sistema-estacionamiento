@@ -1,7 +1,9 @@
 package interfaz;
 
+import logica.vehiculos.Automovil;
 import logica.vehiculos.Vehiculo;
 
+import java.lang.reflect.Array;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -24,6 +26,7 @@ public class Estacionamiento {
         this.columnas = columnas;
         espacioEstacionamiento = new double[filas][columnas];
         vehiculosEstacionados = new ArrayList[filas][columnas];
+
     }
     /**
      * inicializa las matrices
@@ -138,7 +141,7 @@ public class Estacionamiento {
 
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
-                StringBuilder celda = new StringBuilder();
+                StringBuilder celda = new StringBuilder(); // contruyo una string que en este caso es la celda
                 System.out.print(i + "," +  j);
                 celda.append("[ ");
 
@@ -150,7 +153,7 @@ public class Estacionamiento {
                     }
                 }
                 celda.append(" ]");
-                System.out.print(celda);
+                System.out.print(celda); // la imprimo
                 if (vehiculosEstacionados[i][j].size() == 2) {
                     System.out.print("\t");
                 } else {
