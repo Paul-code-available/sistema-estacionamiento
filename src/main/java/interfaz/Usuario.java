@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Usuario {
+
+    private ArrayList<String> placas = new ArrayList<>();
     /**
      *
      * @param in -> para interactuar con el usuario
@@ -68,9 +70,22 @@ public class Usuario {
                 tipoVehiculo = Integer.parseInt(in.nextLine());
 
             } while (tipoVehiculo < 1 || tipoVehiculo > 3);
+            String placa;
+            boolean existe = false;
+            do {
+                existe = false;
+                System.out.print("Ingrese la placa del Vehiculo: ");
+                placa = in.nextLine();
 
-            System.out.print("Ingrese la placa del Vehiculo: ");
-            String placa = in.nextLine();
+                if (existePlaca(placa)) {
+                    System.out.println("La placa ya existe");
+                    existe = true;
+                    continue;
+                }
+
+                placas.add(placa);
+            } while (existe); // verificar
+
             System.out.print("Ingrese el marca del Vehiculo: ");
             String marca = in.nextLine();
             System.out.print("Ingrese el modelo del Vehiculo: ");
@@ -87,6 +102,15 @@ public class Usuario {
         } catch (Exception e) {
             throw new IllegalArgumentException("Valor incorrecto");
         }
+    }
+
+    public boolean existePlaca(String placa) {
+        for (String p : placas) {
+            if (p.equalsIgnoreCase(placa)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

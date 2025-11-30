@@ -47,7 +47,6 @@ public class Main {
                     in.nextLine();
                     break;
                 case 4:
-
                     estacionamiento.generarReporte();
 
                     System.out.println("Presione ENTER para continuar:");
